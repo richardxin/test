@@ -2,8 +2,8 @@
 
 GIT_REPO="https://github.com/richardxin/test"
 if [ $# -ne 2 ]; then
-    echo "=== Missing arguments ===: \nUSAGE: deploy_note.sh <zeppelin_env> <note_name>"
-    exit 1
+	echo "=== Missing arguments ===: \nUSAGE: deploy_note.sh <zeppelin_env> <note_name>"
+	exit 1
 fi
 
 # replace / with -
@@ -11,8 +11,8 @@ file_name="${2/\//-}.json"
 
 echo $file_name
 
-git fetch
-git checkout FETCH_HEAD -- $file_name
+# git fetch
+# git checkout FETCH_HEAD -- $file_name
 
 if [ ! -f $file_name ]; then
 	echo "file $file_name(for notebook $2) does not exist, please check your file name!"
@@ -37,7 +37,7 @@ NOTE_ID=`curl -X GET http://$HOST:8890/api/notebook | jq -r --arg name $2 '[.bod
 
 if [ -n $NOTE_ID ]; then
 	echo "removing notebook $2 $NOTE_ID ..."
-	curl -X DELETE http://ec2-34-215-13-164.us-west-2.compute.amazonaws.com:8890/api/notebook/2CZ5G4YXB | jq -r '.status'	
+	curl -X DELETE http://$HOST:8890/api/notebook/$NOTE_ID | jq -r '.status'	
 else
 	echo "importing new notebook $2 ..."
 fi
