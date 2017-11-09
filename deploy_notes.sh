@@ -42,9 +42,10 @@ else
 	echo "importing new notebook $2 ..."
 fi
 
-NEW_ID = `curl -X POST -H "Content-Type: application/json" -d @$file_name http://$HOST:8890/api/notebook/import | jq -r '.body'`
+NEW_ID=`curl -X POST -H "Content-Type: application/json" -d @$file_name http://$HOST:8890/api/notebook/import | jq -r '.body'`
+echo $NEW_ID 
 
-if [ $NEW_ID != "OK" ] ; then
+if [ -z $NEW_ID ] ; then
 	echo "ERROR while importing notebook $2 ..."
 	exit 1
 fi
